@@ -11,6 +11,14 @@
 }
 
 - (void)handleMethodCall:(FlutterMethodCall*)call result:(FlutterResult)result {
+    [self setOrientaion:call.method];
+    
+    [UIViewController attemptRotationToDeviceOrientation];
+    
+    result(FlutterMethodNotImplemented);
+}
+
+- (void)setOrientaion:(NSString *)orientation {
     if (@available(iOS 16.0, *)) {
         NSArray *scenes = [[[UIApplication sharedApplication] connectedScenes] allObjects];
         UIWindowScene *scene = [scenes firstObject];
@@ -80,10 +88,6 @@
             [[UIDevice currentDevice] setValue:@(UIInterfaceOrientationUnknown) forKey:@"orientation"];
         }
     }
-
-    [UIViewController attemptRotationToDeviceOrientation];
-
-  result(FlutterMethodNotImplemented);
 }
 
 @end
